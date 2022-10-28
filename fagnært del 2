@@ -1,0 +1,18 @@
+def main():
+    ball_x = 0
+    ball_y = 0
+
+
+    bar = 0
+
+
+    while true:
+
+
+
+def show(ball_x, ball_y, bar):
+    return 
+
+def trajectory(ball_x, ball_y, bar):
+
+    return
