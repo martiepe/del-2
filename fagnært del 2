@@ -9,10 +9,14 @@ def main():
     while true:
 
 
-
+# tar inn posisjon til ball og bar og viser de på skjermen
 def show(ball_x, ball_y, bar):
     return 
 
 def trajectory(ball_x, ball_y, bar):
 
     return
+    
+#tar inn posisjonen til baren og returnerer en endret posisjon ved hjelp av gyroskop
+def bar(bar):
+    return 
