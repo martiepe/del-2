@@ -1,22 +1,70 @@
+from random import randint, sample
+from time import sleep
+
+
 def main():
+    # x-koordinat til ballen
     ball_x = 0
+    # y-koordinat til ballen
     ball_y = 0
+    # retningene til ballen
+    theta = [1, sample([-1,1])]
+    # posijon til baren
+    bar_y = 0
+    # antall ganger ballen er truffet med baren
+    score = 0
 
-
-    bar = 0
-
-
+    # så lenge ballen ikke er innenfor baren fotsetter spillet
     while true:
-
-
+        # input for posisjonen til baren
+        bar_y = bar(bar_y)
+        
+        # om ballen treffer bunnen endres y-retningen
+        if ball_y == 0:
+            theta[1] = -theta[1]
+        
+        # om ballen treffer toppen endres y retningen
+        elif ball_y == 7:
+            theta[1] = -theta[1]
+        
+        if ball_x == 1:
+            # om ballen treffer baren endres x- og y-rettningen
+            if bar_y-1 <= ball_y <= bar_y+1:
+                theta[0] = 1
+                theta[1] = -theta[1]
+                score += 1
+            # om ballen går utenfor banen sluttes løkken
+            else:
+                ball_x, ball_y = ball(ball_x, ball_y, theta)
+                show(ball_x, ball_y, bar_y)
+                break
+        
+        # om ballen treffer høyre side blir ballen gitt en tilfeldig y-posisjon og yretning      
+        elif ball_x == 7:
+            theta[0] = -1
+            theta[1] = sample([-1,1])
+            ball_y = randint(0, 7) 
+            show(ball_x, ball_y, bar_y)
+            
+        # hver itterasjon endres posisjonen til ballen
+        ball_x, ball_y = ball(ball_x, ball_y, theta)
+        
+        # hver itterasjon oppdateres grafikken
+        show(ball_x, ball_y, bar_y)
+        
+        
+        
+        
 # tar inn posisjon til ball og bar og viser de på skjermen
 def show(ball_x, ball_y, bar):
     return 
 
-def trajectory(ball_x, ball_y, bar):
-
-    return
+# funksjon som finner oppdatert posisjon for ballen
+def ball(ball_x, ball_y, theta):
     
+    return ball_x + theta[0], ball_y + theta[1]
+
+
 #tar inn posisjonen til baren og returnerer en endret posisjon ved hjelp av gyroskop
 def bar(bar):
     return 
