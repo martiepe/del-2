@@ -83,5 +83,5 @@ def ball(ball_x, ball_y, theta):
 
 
 #tar inn posisjonen til baren og returnerer en endret posisjon ved hjelp av gyroskop
-def bar(bar):
+def bar(bar_y):
     return 
