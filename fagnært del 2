@@ -1,16 +1,17 @@
 from random import randint, sample
 from time import sleep
+from sense_hat import senseHat
 
 
-def main():
+def main(sense):
     # x-koordinat til ballen
-    ball_x = 0
+    ball_x = 2
     # y-koordinat til ballen
-    ball_y = 0
+    ball_y = 3
     # retningene til ballen
     theta = [1, sample([-1,1])]
     # posijon til baren
-    bar_y = 0
+    bar_y = 4
     # antall ganger ballen er truffet med baren
     score = 0
 
@@ -51,8 +52,24 @@ def main():
         
         # hver itterasjon oppdateres grafikken
         show(ball_x, ball_y, bar_y)
-        
-        
+    
+    # åpner fil med score data
+    f = open("scores.txt", 'r+')
+    
+    # skriver den nye scoren til filen
+    f.write(str(score) + ',')
+    
+    # leser tidligere scorer
+    scores = f.read.split(',')
+    
+    # lukker filen
+    f.close()
+    
+    # viser den oppnådde scoren 
+    sense.show_message("score: " + str(score), scroll_speed = 0.05)
+    
+    # viser den høyeste scoren oppnådd
+    sense.show_message("High score: " + str(max(scores)), scroll_speed = 0.05)
         
         
 # tar inn posisjon til ball og bar og viser de på skjermen
