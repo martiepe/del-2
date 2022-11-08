@@ -51,7 +51,7 @@ def main():
         elif ball_x == 7:
             theta[0] = -1
             theta[1] = sample()
-            ball_y = randint(0, 7) 
+            ball_y = randint(1, 6) 
             show(ball_x, ball_y, bar_y)
             
         # hver itterasjon endres posisjonen til ballen
