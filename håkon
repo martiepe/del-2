@@ -54,7 +54,6 @@ for i in range(0,8):
 prev_orientation=sense.get_orientation()["roll"]
 bat_y=0
 while(1):
-    time.sleep(0.1)
     bary=opp_ned(prev_orientation,bat_y)
     if bary !=None:                                      #hovedfunksjonen som kjører småbitene til baren
         if(bary==1):

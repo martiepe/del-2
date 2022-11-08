@@ -1,9 +1,12 @@
 from random import randint, sample
 from time import sleep
 from sense_hat import senseHat
-
+from håkon import *
 
 def main(sense):
+    global sense = senseHat()
+
+
     # x-koordinat til ballen
     ball_x = 2
     # y-koordinat til ballen
@@ -73,8 +76,6 @@ def main(sense):
         
         
 # tar inn posisjon til ball og bar og viser de på skjermen
-def show(ball_x, ball_y, bar):
-    return 
 
 # funksjon som finner oppdatert posisjon for ballen
 def ball(ball_x, ball_y, theta):
@@ -84,4 +85,68 @@ def ball(ball_x, ball_y, theta):
 
 #tar inn posisjonen til baren og returnerer en endret posisjon ved hjelp av gyroskop
 def bar(bar_y):
-    return 
+    prev_orientation=sense.get_orientation()["roll"]
+    bary=opp_ned(prev_orientation,bar_y)
+    if bary !=None:                                      #hovedfunksjonen som kjører småbitene til baren
+        if(bary==1):
+            bar_y=bat_r+1
+        elif(bary==-1):
+            bar_y=bar_y-1
+
+        if(bar_y<1):
+            bar_y=1
+        if(bar_y>6):
+            bar_y=6
+
+        print(bar_y)
+        draw_bar(bar_y)
+
+
+def draw_bar(batty):
+    for i in range(0,8):            #funskjon for posisjonen pixlene til baren 
+        sense.set_pixel(0,i,black)
+
+    sense.set_pixel(0,batty+1,white)
+    sense.set_pixel(0,batty,white)
+    sense.set_pixel(0,batty-1,white)
+
+def rotate():
+    o =sense.get_orientation()         #regner ut grader rotasjon til rpi
+    k=int(o["roll"])
+    return k
+
+
+
+def opp_ned(prev_orientation,bat_y):
+    #kall rotate:
+    orientation=rotate()
+    if(prev_orientation != orientation):#orientasjonen forandret seg
+        prev_orientation=orientation     
+        #vi bryr oss bare om thresholdet er forandret
+        if(10<orientation<90):
+            bat_y=1                    #endrer posisjon mot venstre hvis rpi er innenfor 10 til 90 grader
+
+            return bat_y
+        elif(275<orientation<350):
+            bat_y=-1                     # endrer posisjon mot høyre om rpi vris mellom 275 til 350 grader
+
+            return bat_y
+
+
+
+def rotate_down():
+    global bat_y
+    if rotate() in range(260,360) and bat_y<6:
+        bat_y-=1
+        print("ned")
+
+hvit = [255, 255, 255]
+red = [255, 0, 0]
+
+# En funksjon som tar inn posisjonen til bat og ball og lyser de opp på skjermen med fargene rød og hvit
+def show(ball_x, ball_y, bar_y):
+  sense.set_pixel(0, bar_y, hvit)
+  sense.set_pixel(0, bar_y-1,hvit)
+  sense.set_pixel(0, bar_y+1,hvit)
+
+  sense.set_pixel(ball_x, ball_y, red)
