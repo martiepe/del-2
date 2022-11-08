@@ -115,10 +115,9 @@ def main():
             theta[1] = -1*theta[1]
         
         if ball_x == 1:
-            # om ballen treffer baren endres x- og y-rettningen
+            # om ballen treffer baren endres x-rettningen
             if bar_y-1 <= ball_y <= bar_y+1:
                 theta[0] = 1
-                theta[1] = -1*theta[1]
                 score += 1
             # om ballen går utenfor banen sluttes løkken
             else:
