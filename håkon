@@ -233,5 +233,9 @@ def show(ball_x, ball_y, bar_y):
 
 main()
         
-        
+def sample():
+    r = randint(0, 1)
+    if r == 0:
+        r = -1
+    return r
         
