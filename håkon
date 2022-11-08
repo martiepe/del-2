@@ -73,3 +73,172 @@ while(1):
 
         print(bar_y)
         draw_bar(bar_y)
+        
+        #########################################################################################################################################################
+        
+from random import randint
+from time import sleep
+from sense_hat import SenseHat
+
+sense=SenseHat()
+sense.clear()
+def sample():
+    r = randint(0, 1)
+    if r == 0:
+        r = -1
+    return r
+
+def main():
+    
+    # x-koordinat til ballen
+    ball_x = 2
+    # y-koordinat til ballen
+    ball_y = 3
+    # x- og y-retningene til ballen (tar verdier -1, 1)
+    theta = [1, sample()]
+    # posijon til baren
+    bar_y = 4
+    # antall ganger ballen er truffet med baren
+    score = 0
+
+    # så lenge ballen ikke er innenfor baren fotsetter spillet
+    while True:
+        # input for posisjonen til baren
+        bar_y = bar(bar_y)
+        
+        # om ballen treffer bunnen endres y-retningen
+        if ball_y == 0:
+            theta[1] = -1*theta[1]
+        
+        # om ballen treffer toppen endres y retningen
+        elif ball_y == 7:
+            theta[1] = -1*theta[1]
+        
+        if ball_x == 1:
+            # om ballen treffer baren endres x- og y-rettningen
+            if bar_y-1 <= ball_y <= bar_y+1:
+                theta[0] = 1
+                theta[1] = -1*theta[1]
+                score += 1
+            # om ballen går utenfor banen sluttes løkken
+            else:
+                ball_x, ball_y = ball(ball_x, ball_y, theta)
+                show(ball_x, ball_y, bar_y)
+                break
+        
+        # om ballen treffer høyre side blir ballen gitt en tilfeldig y-posisjon og yretning      
+        elif ball_x == 7:
+            theta[0] = -1
+            theta[1] = sample()
+            ball_y = randint(0, 7) 
+            show(ball_x, ball_y, bar_y)
+            
+        # hver itterasjon endres posisjonen til ballen
+        ball_x, ball_y = ball(ball_x, ball_y, theta)
+        
+        # hver itterasjon oppdateres grafikken
+        sense.clear()
+        show(ball_x, ball_y, bar_y)
+        sleep(0.2)
+    
+    # åpner fil med score data
+    f = open("scores.txt", 'r+')
+    
+    # skriver den nye scoren til filen
+    f.write(str(score) + ',')
+    
+    # leser tidligere scorer
+    scores = f.read.split(',')
+    
+    # lukker filen
+    f.close()
+    
+    # viser den oppnådde scoren 
+    sense.show_message("score: " + str(score), scroll_speed = 0.05)
+    
+    # viser den høyeste scoren oppnådd
+    sense.show_message("High score: " + str(max(scores)), scroll_speed = 0.05)
+        
+        
+# tar inn posisjon til ball og bar og viser de på skjermen
+
+# funksjon som finner oppdatert posisjon for ballen
+def ball(ball_x, ball_y, theta):
+    
+    return ball_x + 1*theta[0], ball_y + 1*theta[1]
+
+
+#tar inn posisjonen til baren og returnerer en endret posisjon ved hjelp av gyroskop
+def bar(bar_y):
+    prev_orientation=sense.get_orientation()["roll"]
+    bary=opp_ned(prev_orientation,bar_y)
+    if bary !=None:                                      #hovedfunksjonen som kjører småbitene til baren
+        if(bary==1):
+            bar_y=bat_y+1
+        elif(bary==-1):
+            bar_y=bar_y-1
+
+        if(bar_y<1):
+            bar_y=1
+        if(bar_y>6):
+            bar_y=6
+
+        return bar_y
+
+white=[255,255,255]
+black=[0,0,0]
+def draw_bar(batty):
+    for i in range(0,8):            #funskjon for posisjonen pixlene til baren 
+        sense.set_pixel(0,i,black)
+
+    sense.set_pixel(0,batty+1,white)
+    sense.set_pixel(0,batty,white)
+    sense.set_pixel(0,batty-1,white)
+
+def rotate():
+    o =sense.get_orientation()         #regner ut grader rotasjon til rpi
+    k=int(o["roll"])
+    return k
+
+
+
+def opp_ned(prev_orientation,bat_y):
+    #kall rotate:
+    orientation=rotate()
+    if(prev_orientation != orientation):#orientasjonen forandret seg
+        prev_orientation=orientation     
+        #vi bryr oss bare om thresholdet er forandret
+        if(10<orientation<90):
+            bat_y=1                    #endrer posisjon mot venstre hvis rpi er innenfor 10 til 90 grader
+
+            return bat_y
+        elif(275<orientation<350):
+            bat_y=-1                     # endrer posisjon mot høyre om rpi vris mellom 275 til 350 grader
+
+            return bat_y
+
+
+
+def rotate_down():
+    global bat_y
+    if rotate() in range(260,360) and bat_y<6:
+        bat_y-=1
+        print("ned")
+
+
+
+# En funksjon som tar inn posisjonen til bat og ball og lyser de opp på skjermen med fargene rød og hvit
+def show(ball_x, ball_y, bar_y):
+    hvit = [255, 255, 255]
+    red = [255, 0, 0]
+
+    sense.set_pixel(0, bar_y, hvit)
+    sense.set_pixel(0, bar_y-1,hvit)
+    sense.set_pixel(0, bar_y+1,hvit)
+
+    sense.set_pixel(ball_x, ball_y, red)
+
+main()
+
+
+        
