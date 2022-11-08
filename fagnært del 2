@@ -8,7 +8,7 @@ def main(sense):
     ball_x = 2
     # y-koordinat til ballen
     ball_y = 3
-    # retningene til ballen
+    # x- og y-retningene til ballen (tar verdier -1, 1)
     theta = [1, sample([-1,1])]
     # posijon til baren
     bar_y = 4
