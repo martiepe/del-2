@@ -98,8 +98,8 @@ def bar(bar_y):
         if(bar_y>6):
             bar_y=6
 
-        print(bar_y)
-        draw_bar(bar_y)
+        return bar_y
+
 
 
 def draw_bar(batty):
