@@ -140,13 +140,15 @@ def rotate_down():
         bat_y-=1
         print("ned")
 
-hvit = [255, 255, 255]
-red = [255, 0, 0]
+
 
 # En funksjon som tar inn posisjonen til bat og ball og lyser de opp på skjermen med fargene rød og hvit
 def show(ball_x, ball_y, bar_y):
-  sense.set_pixel(0, bar_y, hvit)
-  sense.set_pixel(0, bar_y-1,hvit)
-  sense.set_pixel(0, bar_y+1,hvit)
+    hvit = [255, 255, 255]
+    red = [255, 0, 0]
 
-  sense.set_pixel(ball_x, ball_y, red)
+    sense.set_pixel(0, bar_y, hvit)
+    sense.set_pixel(0, bar_y-1,hvit)
+    sense.set_pixel(0, bar_y+1,hvit)
+
+    sense.set_pixel(ball_x, ball_y, red)
