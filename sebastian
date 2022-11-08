@@ -8,3 +8,4 @@ def pixels():
   sense.set_pixel(0, bat_y+1,hvit)
 
   sense.set_pixel(funksjon for ballposisjon, red)
+
