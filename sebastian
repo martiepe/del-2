@@ -1,1 +1,10 @@
+hvit = [255, 255, 255]
+red = [255, 0, 0]
 
+# En funksjon som tar inn posisjonen til bat og ball og lyser de opp på skjermen med fargene rød og hvit
+def pixels():
+  sense.set_pixel(0, bat_y, hvit)
+  sense.set_pixel(0, bat_y-1,hvit)
+  sense.set_pixel(0, bat_y+1,hvit)
+
+  sense.set_pixel(funksjon for ballposisjon, red)
