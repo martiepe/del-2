@@ -167,14 +167,25 @@ def ball(ball_x, ball_y, theta):
     return ball_x + 1*theta[0], ball_y + 1*theta[1]
 
 
-#tar inn posisjonen til baren og returnerer en endret posisjon ved hjelp av gyroskop
-def bar(bar_y):
-    prev_orientation=sense.get_orientation()["roll"]
-    bary=opp_ned(prev_orientation,bar_y)
+#tar inn posisjonen til baren og returnerer en endret posisjon ved hjelp av gyrosko
+def bar(bar_y, prev_orientation):
+    #kall rotate:
+    orientation=rotate()
+    if(prev_orientation != orientation):#orientasjonen forandret seg
+        prev_orientation=orientation     
+        #vi bryr oss bare om thresholdet er forandret
+        if(10<orientation<90):
+            k=1                    #endrer posisjon mot venstre hvis rpi er innenfor 10 til 90 grader
+
+        elif(275<orientation<350):
+            k=-1                     # endrer posisjon mot høyre om rpi vris mellom 275 til 350 grader
+
+    prev_orientation = orientation
+
     if bary !=None:                                      #hovedfunksjonen som kjører småbitene til baren
-        if(bary==1):
-            bar_y=bat_y+1
-        elif(bary==-1):
+        if(k==1):
+            bar_y=bar_y+1
+        elif(k==-1):
             bar_y=bar_y-1
 
         if(bar_y<1):
@@ -182,17 +193,14 @@ def bar(bar_y):
         if(bar_y>6):
             bar_y=6
 
-        return bar_y
+        return bar_y, prev_orientation
 
-white=[255,255,255]
-black=[0,0,0]
-def draw_bar(batty):
-    for i in range(0,8):            #funskjon for posisjonen pixlene til baren 
-        sense.set_pixel(0,i,black)
 
-    sense.set_pixel(0,batty+1,white)
-    sense.set_pixel(0,batty,white)
-    sense.set_pixel(0,batty-1,white)
+
+
+  
+
+
 
 def rotate():
     o =sense.get_orientation()         #regner ut grader rotasjon til rpi
