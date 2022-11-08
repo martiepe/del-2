@@ -152,3 +152,5 @@ def show(ball_x, ball_y, bar_y):
     sense.set_pixel(0, bar_y+1,hvit)
 
     sense.set_pixel(ball_x, ball_y, red)
+
+main()
