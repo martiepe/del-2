@@ -5,8 +5,8 @@ sense=SenseHat()
 
 prev_orientation=0              #setter en variabel til bruk senere
 
-bat_x=0
-bat_y=0
+bar_x=0
+bar_y=0
 white=(255,255,255)                   
 black=(0,0,0)
 def draw_bar(batty):
@@ -24,27 +24,27 @@ def rotate():
 
 
 
-def opp_ned(prev_orientation,bat_y):
+def opp_ned(prev_orientation,bar_y):
     #kall rotate:
     orientation=rotate()
     if(prev_orientation != orientation):#orientasjonen forandret seg
         prev_orientation=orientation     
         #vi bryr oss bare om thresholdet er forandret
         if(10<orientation<90):
-            bat_y=1                    #endrer posisjon mot venstre hvis rpi er innenfor 10 til 90 grader
+            bar_y=1                    #endrer posisjon mot venstre hvis rpi er innenfor 10 til 90 grader
 
             return bat_y
         elif(275<orientation<350):
-            bat_y=-1                     # endrer posisjon mot høyre om rpi vris mellom 275 til 350 grader
+            bar_y=-1                     # endrer posisjon mot høyre om rpi vris mellom 275 til 350 grader
 
-            return bat_y
+            return bar_y
 
 
 
 def rotate_down():
-    global bat_y
-    if rotate() in range(260,360) and bat_y<6:
-        bat_y-=1
+    global bar_y
+    if rotate() in range(260,360) and bar_y<6:
+        bar_y-=1
         print("ned")
 
 
@@ -52,19 +52,24 @@ for i in range(0,8):
         sense.set_pixel(0,i,black)
 
 prev_orientation=sense.get_orientation()["roll"]
-bat_y=0
+bar_y=0
 while(1):
+<<<<<<< HEAD
     bary=opp_ned(prev_orientation,bat_y)
+=======
+    time.sleep(0.1)
+    bary=opp_ned(prev_orientation,bar_y)
+>>>>>>> 95da0c9c2c1e0b3cfcb90a6a7e677771b5d04bf1
     if bary !=None:                                      #hovedfunksjonen som kjører småbitene til baren
         if(bary==1):
-            bat_y=bat_y+1
+            bar_y=bat_y+1
         elif(bary==-1):
-            bat_y=bat_y-1
+            bar_y=bar_y-1
 
-        if(bat_y<1):
-            bat_y=1
-        if(bat_y>6):
-            bat_y=6
+        if(bar_y<1):
+            bar_y=1
+        if(bar_y>6):
+            bar_y=6
 
-        print(bat_y)
-        draw_bar(bat_y)
+        print(bar_y)
+        draw_bar(bar_y)
