@@ -110,7 +110,7 @@ def bar(bar_y, prev_orientation):
 
     if bary !=None:                                      #hovedfunksjonen som kjører småbitene til baren
         if(bary==1):
-            bar_y=bat_y+1
+            bar_y=bar_y+1
         elif(bary==-1):
             bar_y=bar_y-1
 
