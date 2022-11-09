@@ -98,7 +98,7 @@ def opp_ned(prev_orientation,bar_y):
         if(10<orientation<90):
             bar_y=1                    #endrer posisjon mot venstre hvis rpi er innenfor 10 til 90 grader
 
-            return bat_y
+            return bar_y
         elif(275<orientation<350):
             bar_y=-1                     # endrer posisjon mot høyre om rpi vris mellom 275 til 350 grader
 
