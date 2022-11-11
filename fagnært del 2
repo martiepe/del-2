@@ -63,14 +63,22 @@ def main():
         sleep(0.2)
     
     # åpner fil med score data
-    f = open("scores.txt", 'r+')
+    f = open("scores.txt", 'a+')
     
+    I= f.read()
     # skriver den nye scoren til filen
-    f.write(str(score) + ',')
-    
+    f.write(I+str(score) + ',')
+    f.close()
+    f=open("scores.txt", 'r')
+    I=f.read()
     # leser tidligere scorer
-    scores = f.read.split(',')
     
+    scores=[]
+    for i in I.split(','):
+        if i != "":
+            scores.append(int(i))
+            
+     
     # lukker filen
     f.close()
     
